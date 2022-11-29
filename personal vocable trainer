@@ -1,0 +1,58 @@
+# vocable trainer with reading files
+# what we can add is a function to choose a thematic
+
+class Main:
+    def __init__(self):
+        self.vocable = []
+        self.score = 0
+        self.object = 0
+        self.available_themes = ["fracking", "smaller"]
+        self.fracking = open("Themes/fracking theme.txt", "r")
+        self.smaller = open("Themes/smaller.txt", "r")
+
+    def choose_file(self):
+        while True:
+            user = input("theme>").lower()
+            if user == "0":
+                exit(0)
+            elif user == "fracking":
+                self.get_file(self.fracking)
+                break
+            elif user == "smaller":
+                self.get_file(self.smaller)
+                break
+            else:
+                continue
+
+    def get_file(self, file):
+        for line in file:
+            word = line.strip().split(" = ")
+            self.vocable.append(word)
+        file.close()
+
+    def try_vocables(self):
+        for i in self.vocable:
+            print("Type the german word.")
+            print("Attention, you need alternatives for ä, ü, ö")
+            print(i[0])
+            user = input(">")
+            if user == "0":
+                exit(0)
+            elif user == i[1]:
+                print("that´s correct")
+                self.score += 1
+                self.object += 1
+                continue
+            else:
+                print("that´s incorrect")
+                print(f"{self.vocable[self.object][0] + '=' + self.vocable[self.object][1]}\n")
+                self.object += 1
+                continue
+
+        print(f"{self.score, '/', len(self.vocable)}")
+
+
+if __name__ == '__main__':
+    main = Main()
+    main.choose_file()
+    main.try_vocables()
